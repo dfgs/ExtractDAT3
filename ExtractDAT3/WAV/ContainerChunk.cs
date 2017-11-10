@@ -34,8 +34,8 @@ namespace WavUtilsLib
 			return chunks.OfType<ChunkType>().FirstOrDefault();
 		}
 
-		// original methid
-		/*protected override void OnReadBody(BinaryReader Reader)
+		// original method
+		protected override void OnReadBody(BinaryReader Reader)
 		{
 			Chunk chunk;
 
@@ -49,10 +49,10 @@ namespace WavUtilsLib
 				chunks.Add(chunk);
 				size += chunk.FullSize;
 			}
-		}*/
+		}//*/
 
-			// manage NTR Bug
-		protected override void OnReadBody(BinaryReader Reader)
+		// manage NTR Bug
+		/*protected override void OnReadBody(BinaryReader Reader)
 		{
 			Chunk chunk;
 			long position;
@@ -73,7 +73,7 @@ namespace WavUtilsLib
 				chunks.Add(chunk);
 				size += chunk.FullSize;
 			}
-		}
+		}//*/
 
 
 		public override void OnDumpBodyToConsole(int Padding)

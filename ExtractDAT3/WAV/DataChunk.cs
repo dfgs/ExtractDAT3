@@ -35,8 +35,8 @@ namespace WavUtilsLib
 			byte[] hash;
 
 
-			data = new byte[this.ContentSize-1];
-			Reader.Read(data, 0, (int)this.ContentSize-1);
+			data = new byte[this.ContentSize];
+			Reader.Read(data, 0, (int)this.ContentSize);
 
 			using (var md5 = MD5.Create())
 			{

@@ -48,10 +48,10 @@ namespace WavUtilsLib
 			contentSize = Reader.ReadUInt32();
 			OnReadBody(Reader);
 			// NTR Bug
-			if (Reader.BaseStream.Position < Reader.BaseStream.Length)
+			/*if (Reader.BaseStream.Position < Reader.BaseStream.Length)
 			{
 				if ((Reader.BaseStream.Position & 1) != 0) Reader.ReadByte();
-			}
+			}//*/
 		}
 		protected abstract void OnReadBody(BinaryReader Reader);
 

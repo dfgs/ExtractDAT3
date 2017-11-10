@@ -10,12 +10,43 @@ namespace ExtractDAT3
 {
 	class Program
 	{
+		private static string FindMetadataInAudioChunk(DataChunk Chunk)
+		{
+			byte[] pattern = Encoding.ASCII.GetBytes("[FileType]");
+			byte[] buffer;
+			int length;
+			long position;
+			StreamReader reader;
+
+			length = pattern.Length;
+			buffer = new byte[length];
+			using (MemoryStream stream = new MemoryStream(Chunk.Data))
+			{
+				while (stream.Position < stream.Length - length)
+				{
+					position = stream.Position;
+					stream.Read(buffer, 0, length);
+					if (buffer.SequenceEqual(pattern))
+					{
+						stream.Seek(position, SeekOrigin.Begin);
+						reader = new StreamReader(stream,Encoding.ASCII);
+						return reader.ReadToEnd();
+					}
+					stream.Seek(position+1, SeekOrigin.Begin);
+				}
+			}
+
+			return null;
+
+		}
 		static void Main(string[] args)
 		{
 			string path;
 			Chunk chunk;
 			StreamWriter writer;
-			TextChunk[] commentChunks;
+			TextChunk commentChunk;
+			DataChunk dataChunk;
+			string metadata;
 
 			if (args.Length==0)
 			{
@@ -38,40 +69,56 @@ namespace ExtractDAT3
 				}
 				//chunk.DumpToConsole(0);
 				
-				
-				commentChunks = chunk.EnumerateChunks().OfType<TextChunk>().ToArray();
+				if (Path.GetFileName(fileName).StartsWith("R_"))
+				{
+					dataChunk = chunk.EnumerateChunks().OfType<DataChunk>().FirstOrDefault();
+					if (dataChunk == null)
+					{
+						Console.WriteLine($"Invalid wav file {fileName}: No data chunk found");
+						continue;
+					}
+					metadata=FindMetadataInAudioChunk(dataChunk);
+				}
+				else
+				{
+					commentChunk = chunk.EnumerateChunks().OfType<TextChunk>().FirstOrDefault();
+					if (commentChunk==null)
+					{
+						metadata = null;
+					}
+					else
+					{
+						metadata = commentChunk.Value;
+					}
+				}
 
-				if (commentChunks.Length == 0)
+				if (metadata == null)
 				{
 					Console.WriteLine($"No metadata in file {fileName}");
 					continue;
 				}
-				else
+				
+
+				using (FileStream stream = new FileStream(Path.ChangeExtension(fileName, "DAT3"), FileMode.Create))
 				{
-					
-					using (FileStream stream = new FileStream(Path.ChangeExtension(fileName, "DAT3"), FileMode.Create))
+					writer = new StreamWriter(stream);
+					foreach (string line in metadata.Split('\r', '\n'))
 					{
-						writer = new StreamWriter(stream);
-						foreach (TextChunk commentChunk in commentChunks)
-						{
-							foreach (string line in commentChunk.Value.Split('\r', '\n'))
-							{
-								if ((line == "") || (line.Contains("FingerPrint"))) continue;
-								writer.WriteLine(line);
-							}
-						}
-						writer.Flush();
+						if ((line == "") || (line.Contains("FingerPrint"))) continue;
+						writer.WriteLine(line);
 					}
 
-					Console.WriteLine($"File {fileName} extracted successfully");
-
-
+					writer.Flush();
 				}
+
+				Console.WriteLine($"File {fileName} extracted successfully");
 
 
 			}
 
-
+			//Console.ReadLine();
 		}
+
+
 	}
 }
