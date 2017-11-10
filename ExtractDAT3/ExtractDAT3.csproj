@@ -44,6 +44,19 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WAV\BlobChunk.cs" />
+    <Compile Include="WAV\Chunk.cs" />
+    <Compile Include="WAV\ContainerChunk.cs" />
+    <Compile Include="WAV\CueChunk.cs" />
+    <Compile Include="WAV\CuePoint.cs" />
+    <Compile Include="WAV\DataChunk.cs" />
+    <Compile Include="WAV\FactChunk.cs" />
+    <Compile Include="WAV\FormatChunk.cs" />
+    <Compile Include="WAV\LabelChunk.cs" />
+    <Compile Include="WAV\ListChunk.cs" />
+    <Compile Include="WAV\TextChunk.cs" />
+    <Compile Include="WAV\Utils.cs" />
+    <Compile Include="WAV\WavChunk.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
