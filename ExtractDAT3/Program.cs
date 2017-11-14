@@ -47,14 +47,21 @@ namespace ExtractDAT3
 			TextChunk commentChunk;
 			DataChunk dataChunk;
 			string metadata;
+			bool includeHash;
 
-			if (args.Length==0)
+			if ((args.Length<1) || (args.Length > 2))
 			{
-				Console.WriteLine("Usage: ExtractDAT3 <Wav files location>");
+				Console.WriteLine("Usage: ExtractDAT3 <Wav files location> [--IncludeHash]");
 				return;
 			}
-
 			path = args[0];
+
+
+			if (args.Length == 2)
+			{
+				includeHash = (args[1].ToLower() == "--includehash");
+			}
+			else includeHash = false;
 
 			foreach(string fileName in Directory.EnumerateFiles(path, "*.wav",SearchOption.AllDirectories))
 			{
@@ -104,8 +111,15 @@ namespace ExtractDAT3
 					writer = new StreamWriter(stream);
 					foreach (string line in metadata.Split('\r', '\n'))
 					{
-						if ((line == "") || (line.Contains("FingerPrint"))) continue;
-						writer.WriteLine(line);
+						if (line == "") continue;
+						if (line.Contains("FingerPrint"))
+						{
+							if (!includeHash) continue;
+							writer.WriteLine( line.Substring(0,Math.Min(45,line.Length)));
+							// clean fingerprint line
+
+						} else writer.WriteLine(line);
+
 					}
 
 					writer.Flush();
