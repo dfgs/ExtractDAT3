@@ -48,20 +48,17 @@ namespace ExtractDAT3
 			DataChunk dataChunk;
 			string metadata;
 			bool includeHash;
+			bool forceFileInvalid;
 
-			if ((args.Length<1) || (args.Length > 2))
+			if ((args.Length<1))
 			{
-				Console.WriteLine("Usage: ExtractDAT3 <Wav files location> [--IncludeHash]");
+				Console.WriteLine("Usage: ExtractDAT3 <Wav files location> [--includehash] [--forcefileinvalid]");
 				return;
 			}
 			path = args[0];
 
-
-			if (args.Length == 2)
-			{
-				includeHash = (args[1].ToLower() == "--includehash");
-			}
-			else includeHash = false;
+			includeHash=args.Select(item=>item.ToLower()).Contains("--includehash"); ;
+			forceFileInvalid = args.Select(item => item.ToLower()).Contains("--forcefileinvalid");
 
 			foreach(string fileName in Directory.EnumerateFiles(path, "*.wav",SearchOption.AllDirectories))
 			{
@@ -76,7 +73,7 @@ namespace ExtractDAT3
 				}
 				//chunk.DumpToConsole(0);
 				
-				if (Path.GetFileName(fileName).StartsWith("R_"))
+				if (Path.GetFileName(fileName).StartsWith("R_") || forceFileInvalid)
 				{
 					dataChunk = chunk.EnumerateChunks().OfType<DataChunk>().FirstOrDefault();
 					if (dataChunk == null)
