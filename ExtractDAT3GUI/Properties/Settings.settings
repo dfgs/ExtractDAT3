@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ExtractDAT3GUI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DefaultFolder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">d:\test</Value>
+    </Setting>
+    <Setting Name="LogFileName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ExtractDAT3.log</Value>
+    </Setting>
+    <Setting Name="CSVSeparator" Type="System.String" Scope="User">
+      <Value Profile="(Default)">;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
