@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="DefaultFolder" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">d:\test</Value>
+      <Value Profile="(Default)">d:\Test</Value>
     </Setting>
     <Setting Name="LogFileName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">ExtractDAT3.log</Value>

@@ -25,7 +25,7 @@ namespace ExtractDAT3GUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("d:\\test")]
+        [global::System.Configuration.DefaultSettingValueAttribute("d:\\Test")]
         public string DefaultFolder {
             get {
                 return ((string)(this["DefaultFolder"]));
