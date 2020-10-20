@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
+    <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\Statuses.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="WAV\BlobChunk.cs" />

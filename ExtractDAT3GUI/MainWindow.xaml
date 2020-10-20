@@ -100,30 +100,52 @@
 				<RowDefinition Height="5"/>
 				<RowDefinition Height="1*"/>
 			</Grid.RowDefinitions>
-			
-			<ListView Grid.Row="0" ItemsSource="{Binding Items}" x:Name="listView">
-				<ListView.View>
-					<GridView>
-						<GridView.Columns>
-							<GridViewColumn Header="" Width="32">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<Image Source="{Binding ImageSource}" Stretch="None"/>
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-							</GridViewColumn>
-							<GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" Width="300"/>
-							<GridViewColumn Header="WAV chunk" CellTemplate="{StaticResource ResourceKey=wavStatusDataTemplate}" Width="100"/>
-							<GridViewColumn Header="Data chunk" CellTemplate="{StaticResource ResourceKey=dataStatusDataTemplate}" Width="100"/>
-							<GridViewColumn Header="Metadata" CellTemplate="{StaticResource ResourceKey=metadataStatusDataTemplate}" Width="100"/>
-							<GridViewColumn Header="DAT3" CellTemplate="{StaticResource ResourceKey=dat3StatusDataTemplate}" Width="100"/>
-							<GridViewColumn Header="Message" DisplayMemberBinding="{Binding Message}" Width="300"/>
-						</GridView.Columns>
-					</GridView>
-				</ListView.View>
-			</ListView>
+			<DockPanel Grid.Row="0" >
+				<ListBox DockPanel.Dock="Bottom" ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}" BorderThickness="0" Padding="2" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+					<ListBox.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Horizontal"/>
+						</ItemsPanelTemplate>
+					</ListBox.ItemsPanel>
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Index}" Foreground="Blue" Margin="5"/>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
 
-			<GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+				</ListBox>
+				
+				<ListView ItemsSource="{Binding SelectedPage.Items}" x:Name="listView">
+					<ListView.View>
+						<GridView>
+							<GridView.Columns>
+								<GridViewColumn Header="" Width="32">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Image Source="{Binding ImageSource}" Stretch="None"/>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+								<GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" Width="300"/>
+								<GridViewColumn Header="WAV chunk" CellTemplate="{StaticResource ResourceKey=wavStatusDataTemplate}" Width="100"/>
+								<GridViewColumn Header="Data chunk" CellTemplate="{StaticResource ResourceKey=dataStatusDataTemplate}" Width="100"/>
+								<GridViewColumn Header="Metadata" CellTemplate="{StaticResource ResourceKey=metadataStatusDataTemplate}" Width="100"/>
+								<GridViewColumn Header="DAT3" CellTemplate="{StaticResource ResourceKey=dat3StatusDataTemplate}" Width="100"/>
+								<GridViewColumn Header="Message" DisplayMemberBinding="{Binding Message}" Width="300"/>
+							</GridView.Columns>
+						</GridView>
+					</ListView.View>
+				</ListView>
+
+				
+			</DockPanel>
+			
+
+			
+			
+			<GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="0" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+			<Border Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="64" Height="2" Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+			
 			<DockPanel Grid.Row="2">
 				<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
 					<TextBlock FontWeight="Bold" Text="Metadata" Margin="5"/>

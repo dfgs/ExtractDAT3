@@ -41,15 +41,21 @@ namespace ExtractDAT3GUI.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(";")]
         public string CSVSeparator {
             get {
                 return ((string)(this["CSVSeparator"]));
             }
-            set {
-                this["CSVSeparator"] = value;
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int MaxItemsPerPage {
+            get {
+                return ((int)(this["MaxItemsPerPage"]));
             }
         }
     }

@@ -69,7 +69,7 @@ namespace ExtractDAT3GUI
 			dialog.SelectedPath = global::ExtractDAT3GUI.Properties.Settings.Default.DefaultFolder;
 			if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{ 
-				await ViewModel.LoadDirectory(dialog.SelectedPath);
+				await ViewModel.LoadDirectory(dialog.SelectedPath, global::ExtractDAT3GUI.Properties.Settings.Default.MaxItemsPerPage);
 			}
 			IsIdle = true;
 		}
@@ -77,7 +77,7 @@ namespace ExtractDAT3GUI
 
 		private void ClearCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = IsIdle && (ViewModel.Items.Count>0); e.Handled = true;
+			e.CanExecute = IsIdle && (ViewModel.Pages.Count>0); e.Handled = true;
 		}
 
 		private async void ClearCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -91,7 +91,7 @@ namespace ExtractDAT3GUI
 
 		private void GoCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = IsIdle && (ViewModel.Items.Count > 0); e.Handled = true;
+			e.CanExecute = IsIdle && (ViewModel.Pages.Count > 0); e.Handled = true;
 		}
 
 		private async void GoCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -103,7 +103,7 @@ namespace ExtractDAT3GUI
 
 		private void SaveCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = IsIdle && (ViewModel.Items.Count > 0); e.Handled = true;
+			e.CanExecute = IsIdle && (ViewModel.Pages.Count > 0); e.Handled = true;
 		}
 
 		private void SaveCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
