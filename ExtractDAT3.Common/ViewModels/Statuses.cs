@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtractDAT3GUI.ViewModels
+namespace ExtractDAT3.Common.ViewModels
 {
 	public enum Statuses { Unknow,Valid,Invalid	};
 }

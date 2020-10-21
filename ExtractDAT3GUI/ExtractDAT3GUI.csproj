@@ -56,24 +56,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\ApplicationViewModel.cs" />
-    <Compile Include="ViewModels\FileViewModel.cs" />
-    <Compile Include="ViewModels\PageViewModel.cs" />
-    <Compile Include="ViewModels\Statuses.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
-    <Compile Include="WAV\BlobChunk.cs" />
-    <Compile Include="WAV\Chunk.cs" />
-    <Compile Include="WAV\ContainerChunk.cs" />
-    <Compile Include="WAV\CueChunk.cs" />
-    <Compile Include="WAV\CuePoint.cs" />
-    <Compile Include="WAV\DataChunk.cs" />
-    <Compile Include="WAV\FactChunk.cs" />
-    <Compile Include="WAV\FormatChunk.cs" />
-    <Compile Include="WAV\LabelChunk.cs" />
-    <Compile Include="WAV\ListChunk.cs" />
-    <Compile Include="WAV\TextChunk.cs" />
-    <Compile Include="WAV\Utils.cs" />
-    <Compile Include="WAV\WavChunk.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -153,6 +135,10 @@
     <ProjectReference Include="..\..\LogLib\LogLib\LogLib.csproj">
       <Project>{ef4b0001-2859-4a09-8f95-3e5bef4a5272}</Project>
       <Name>LogLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtractDAT3.Common\ExtractDAT3.Common.csproj">
+      <Project>{06d5aae5-808f-4246-aa2e-86d85f925e49}</Project>
+      <Name>ExtractDAT3.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

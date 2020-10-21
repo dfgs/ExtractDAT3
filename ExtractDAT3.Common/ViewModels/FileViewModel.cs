@@ -8,67 +8,58 @@ using System.Threading.Tasks;
 using System.Windows;
 using WavUtilsLib;
 
-namespace ExtractDAT3GUI.ViewModels
+namespace ExtractDAT3.Common.ViewModels
 {
 	public class FileViewModel:ViewModel
 	{
 		public override int ComponentID => 2;
 
-		public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register("ImageSource", typeof(string), typeof(FileViewModel),new PropertyMetadata("Images/music.png"));
 		public string ImageSource
 		{
-			get { return (string)GetValue(ImageSourceProperty); }
-			set { SetValue(ImageSourceProperty, value); }
+			get;
+			set;
 		}
 
-		public static readonly DependencyProperty PathProperty = DependencyProperty.Register("Path", typeof(string), typeof(FileViewModel));
 		public string Path
 		{
-			get { return (string)GetValue(PathProperty); }
-			set { SetValue(PathProperty, value); }
+			get;
+			set;
 		}
 
 
 
-		public static readonly DependencyProperty MetadataProperty = DependencyProperty.Register("Metadata", typeof(string), typeof(FileViewModel));
 		public string Metadata
 		{
-			get { return (string)GetValue(MetadataProperty); }
-			set { SetValue(MetadataProperty, value); }
+			get;
+			set;
 		}
 
 
-		public static readonly DependencyProperty WavChunkStatusProperty = DependencyProperty.Register("WavChunkStatus", typeof(Statuses), typeof(FileViewModel));
 		public Statuses WavChunkStatus
 		{
-			get { return (Statuses)GetValue(WavChunkStatusProperty); }
-			set { SetValue(WavChunkStatusProperty, value); }
+			get;
+			set;
 		}
-		public static readonly DependencyProperty DataChunkStatusProperty = DependencyProperty.Register("DataChunkStatus", typeof(Statuses), typeof(FileViewModel));
 		public Statuses DataChunkStatus
 		{
-			get { return (Statuses)GetValue(DataChunkStatusProperty); }
-			set { SetValue(DataChunkStatusProperty, value); }
+			get;
+			set;
 		}
-		public static readonly DependencyProperty MetadataStatusProperty = DependencyProperty.Register("MetadataStatus", typeof(Statuses), typeof(FileViewModel));
 		public Statuses MetadataStatus
 		{
-			get { return (Statuses)GetValue(MetadataStatusProperty); }
-			set { SetValue(MetadataStatusProperty, value); }
+			get;
+			set;
 		}
-		public static readonly DependencyProperty DAT3StatusProperty = DependencyProperty.Register("DAT3Status", typeof(Statuses), typeof(FileViewModel));
 		public Statuses DAT3Status
 		{
-			get { return (Statuses)GetValue(DAT3StatusProperty); }
-			set { SetValue(DAT3StatusProperty, value); }
+			get;
+			set;
 		}
 
-
-		public static readonly DependencyProperty MessageProperty = DependencyProperty.Register("Message", typeof(string), typeof(FileViewModel));
 		public string Message
 		{
-			get { return (string)GetValue(MessageProperty); }
-			set { SetValue(MessageProperty, value); }
+			get;
+			set;
 		}
 
 		public FileViewModel(ILogger Logger):base(Logger)
@@ -113,7 +104,7 @@ namespace ExtractDAT3GUI.ViewModels
 
 		}
 
-		public async Task BeginAnalyse()
+		public void BeginAnalyse()
 		{
 			LogEnter();
 
@@ -124,11 +115,10 @@ namespace ExtractDAT3GUI.ViewModels
 			MetadataStatus = Statuses.Unknow;
 			DAT3Status = Statuses.Unknow;
 			Message = null;
-			await Task.Delay(1);
 		}
 
 
-		public async Task Analyse(bool ForceFileInvalid)
+		public void Analyse(bool ForceFileInvalid)
 		{
 			Chunk chunk;
 			DataChunk dataChunk;
@@ -141,7 +131,7 @@ namespace ExtractDAT3GUI.ViewModels
 			try
 			{
 				path = Path;
-				chunk = await Task.Run(()=> Chunk.FromFile(path));
+				chunk = Chunk.FromFile(path);
 				WavChunkStatus = Statuses.Valid;
 			}
 			catch (Exception ex)
@@ -169,7 +159,7 @@ namespace ExtractDAT3GUI.ViewModels
 				else
 				{
 					DataChunkStatus = Statuses.Valid;
-					Metadata = await Task.Run(()=> FindMetadataInAudioChunk(dataChunk));
+					Metadata = FindMetadataInAudioChunk(dataChunk);
 				}
 			}
 			else
@@ -204,7 +194,7 @@ namespace ExtractDAT3GUI.ViewModels
 
 		}
 
-		public async Task EndAnalyse(bool IncludeHash)
+		public void EndAnalyse(bool IncludeHash)
 		{
 			StreamWriter writer;
 			//DateTime date = DateTime.MinValue;
@@ -235,7 +225,7 @@ namespace ExtractDAT3GUI.ViewModels
 						if (line.Contains("FingerPrint"))
 						{
 							if (!IncludeHash) continue;
-							await writer.WriteLineAsync(line.Substring(0, Math.Min(45, line.Length)));
+							writer.WriteLine(line.Substring(0, Math.Min(45, line.Length)));
 							// clean fingerprint line
 							continue;
 						}
@@ -261,7 +251,7 @@ namespace ExtractDAT3GUI.ViewModels
 								Console.WriteLine($"Invalid channel format: {ex.Message}");
 							}
 						}*/
-						await writer.WriteLineAsync(line);
+						writer.WriteLine(line);
 					}
 
 					/*if ((date != DateTime.MinValue) && (channel != -1))

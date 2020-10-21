@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExtractDAT3GUI" Closed="Window_Closed"
-		xmlns:viewModels="clr-namespace:ExtractDAT3GUI.ViewModels"
+		xmlns:viewModels="clr-namespace:ExtractDAT3.Common.ViewModels;assembly=ExtractDAT3.Common"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
         Title="ExtractDAT3" Height="768" Width="1024" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
 

@@ -8,40 +8,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ExtractDAT3GUI.ViewModels
+namespace ExtractDAT3.Common.ViewModels
 {
 	public class ApplicationViewModel:ViewModel
 	{
 		public override int ComponentID => 1;
 
-		public static readonly DependencyProperty PagesProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<PageViewModel>), typeof(ApplicationViewModel));
-		public ObservableCollection<PageViewModel> Pages
+		public List<PageViewModel> Pages
 		{
-			get { return (ObservableCollection<PageViewModel>) GetValue(PagesProperty); }
-			set { SetValue(PagesProperty, value); }
+			get;
+			set;
 		}
 
 
-		public static readonly DependencyProperty SelectedPageProperty = DependencyProperty.Register("SelectedPage", typeof(PageViewModel), typeof(ApplicationViewModel));
 		public PageViewModel SelectedPage
 		{
-			get { return (PageViewModel)GetValue(SelectedPageProperty); }
-			set { SetValue(SelectedPageProperty, value); }
+			get;
+			set;
 		}
 
-		public static readonly DependencyProperty ForceInvalidProperty = DependencyProperty.Register("ForceInvalid", typeof(bool), typeof(ApplicationViewModel));
 		public bool ForceInvalid
 		{
-			get { return (bool)GetValue(ForceInvalidProperty); }
-			set { SetValue(ForceInvalidProperty, value); }
+			get;
+			set;
 		}
 
 
-		public static readonly DependencyProperty IncludeHashProperty = DependencyProperty.Register("IncludeHash", typeof(bool), typeof(ApplicationViewModel));
 		public bool IncludeHash
 		{
-			get { return (bool)GetValue(IncludeHashProperty); }
-			set { SetValue(IncludeHashProperty, value); }
+			get;
+			set;
 		}
 
 		private IEnumerable<FileViewModel> Files
@@ -60,26 +56,25 @@ namespace ExtractDAT3GUI.ViewModels
 
 		public ApplicationViewModel(ILogger Logger):base(Logger)
 		{
-			Pages = new ObservableCollection<PageViewModel>();
+			Pages = new List<PageViewModel>();
 		}
 
-		public async Task LoadDirectory(string Path,int MaxItemsPerPage)
+		public void LoadDirectory(string Path,int MaxItemsPerPage)
 		{
 			string[] files;
 			FileViewModel file;
-			ObservableCollection<PageViewModel> items;
 			PageViewModel page;
 
 			LogEnter();
 
 			Log(LogLevels.Information, $"Parsing directory {Path}");
-			items = new ObservableCollection<PageViewModel>();
-			page = new PageViewModel(Logger,items.Count+1);
-			items.Add(page);
+			Pages.Clear();
+			page = new PageViewModel(Logger,Pages.Count+1);
+			Pages.Add(page);
 
 			try
 			{
-				files = await Task.Run(() => Directory.EnumerateFiles(Path, "*.wav", SearchOption.AllDirectories).ToArray());
+				files = Directory.EnumerateFiles(Path, "*.wav", SearchOption.AllDirectories).ToArray();
 			}
 			catch(Exception ex)
 			{
@@ -96,26 +91,23 @@ namespace ExtractDAT3GUI.ViewModels
 				page.Items.Add(file);
 				if (page.Items.Count== MaxItemsPerPage)
 				{
-					page = new PageViewModel(Logger, items.Count+1);
-					items.Add(page);
+					page = new PageViewModel(Logger, Pages.Count+1);
+					Pages.Add(page);
 				}
 			}
 
-
-			this.Pages = items;
 			this.SelectedPage = Pages.FirstOrDefault();
 		}
 
-		public async Task Clear()
+		public void Clear()
 		{
 			LogEnter();
 
 			Pages.Clear();
 			SelectedPage = null;
-			await Task.Delay(0);
 		}
 
-		public async Task Analyse()
+		public void Analyse()
 		{
 
 			LogEnter();
@@ -123,15 +115,15 @@ namespace ExtractDAT3GUI.ViewModels
 			Log(LogLevels.Information, $"Analysing items");
 			foreach (FileViewModel file in Files)
 			{
-				await file.BeginAnalyse();
+				file.BeginAnalyse();
 			}
 			foreach (FileViewModel file in Files)
 			{
-				await file.Analyse(ForceInvalid);
+				file.Analyse(ForceInvalid);
 			}
 			foreach (FileViewModel file in Files)
 			{
-				await file.EndAnalyse(IncludeHash);
+				file.EndAnalyse(IncludeHash);
 			}
 		}
 

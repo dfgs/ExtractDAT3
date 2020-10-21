@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtractDAT3GUI", "ExtractDA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogLib", "..\LogLib\LogLib\LogLib.csproj", "{EF4B0001-2859-4A09-8F95-3E5BEF4A5272}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtractDAT3.Common", "ExtractDAT3.Common\ExtractDAT3.Common.csproj", "{06D5AAE5-808F-4246-AA2E-86D85F925E49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EF4B0001-2859-4A09-8F95-3E5BEF4A5272}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF4B0001-2859-4A09-8F95-3E5BEF4A5272}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF4B0001-2859-4A09-8F95-3E5BEF4A5272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06D5AAE5-808F-4246-AA2E-86D85F925E49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06D5AAE5-808F-4246-AA2E-86D85F925E49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06D5AAE5-808F-4246-AA2E-86D85F925E49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06D5AAE5-808F-4246-AA2E-86D85F925E49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

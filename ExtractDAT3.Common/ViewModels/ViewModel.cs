@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ExtractDAT3GUI.ViewModels
+namespace ExtractDAT3.Common.ViewModels
 {
-	public abstract class ViewModel : DependencyObject
+	public abstract class ViewModel 
 	{
 		private ILogger logger;
 		protected ILogger Logger
