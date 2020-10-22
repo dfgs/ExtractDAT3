@@ -1,4 +1,4 @@
-﻿using ExtractDAT3.Common.ViewModels;
+﻿using ExtractDAT3GUI.ViewModels;
 using LogLib;
 using Microsoft.Win32;
 using System;
@@ -39,7 +39,7 @@ namespace ExtractDAT3GUI
 		public ApplicationViewModel ViewModel
 		{
 			get;
-			set;
+			private set;
 		}
 
 		public MainWindow()
@@ -49,6 +49,7 @@ namespace ExtractDAT3GUI
 			InitializeComponent();
 			DataContext = ViewModel;
 		}
+
 		private void Window_Closed(object sender, EventArgs e)
 		{
 			logger = null;
@@ -64,13 +65,13 @@ namespace ExtractDAT3GUI
 			FolderBrowserDialog dialog;
 
 			IsIdle = false;
-			DataContext = null;
+			
 			dialog = new FolderBrowserDialog() { Description = "Open WAV folder" };
 			dialog.SelectedPath = global::ExtractDAT3GUI.Properties.Settings.Default.DefaultFolder;
 			if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				await Task.Run(()=>ViewModel.LoadDirectory(dialog.SelectedPath, global::ExtractDAT3GUI.Properties.Settings.Default.MaxItemsPerPage));
-				DataContext = ViewModel;
+				await ViewModel.LoadDirectoryAsync(dialog.SelectedPath, global::ExtractDAT3GUI.Properties.Settings.Default.MaxItemsPerPage);
+				
 			}
 			IsIdle = true;
 		}
@@ -81,12 +82,12 @@ namespace ExtractDAT3GUI
 			e.CanExecute = IsIdle && (ViewModel.Pages.Count>0); e.Handled = true;
 		}
 
-		private async void ClearCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+		private void ClearCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			IsIdle = false;
-			DataContext = null;
-			await Task.Run(()=>ViewModel.Clear());
-			DataContext = ViewModel;
+			
+			ViewModel.Clear();
+			
 			IsIdle = true;
 		}
 
@@ -100,9 +101,9 @@ namespace ExtractDAT3GUI
 		private async void GoCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			IsIdle = false;
-			DataContext = null;
-			await Task.Run(()=>ViewModel.Analyse());
-			DataContext = ViewModel;
+			
+			await ViewModel.AnalyseAsync();
+			
 			IsIdle = true;
 		}
 
@@ -122,7 +123,7 @@ namespace ExtractDAT3GUI
 			dialog.Filter = "csv files|*.csv|All files|*.*";
 			if (dialog.ShowDialog()== System.Windows.Forms.DialogResult.OK)
 			{
-				await Task.Run(()=>ViewModel.SaveReport(dialog.FileName, global::ExtractDAT3GUI.Properties.Settings.Default.CSVSeparator));
+				await ViewModel.SaveReportAsync(dialog.FileName, global::ExtractDAT3GUI.Properties.Settings.Default.CSVSeparator);
 
 			}
 

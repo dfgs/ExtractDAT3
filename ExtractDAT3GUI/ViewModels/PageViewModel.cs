@@ -1,4 +1,5 @@
-﻿using LogLib;
+﻿using ExtractDAT3.Common;
+using LogLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ExtractDAT3.Common.ViewModels
+namespace ExtractDAT3GUI.ViewModels
 {
 	public class PageViewModel : ViewModel
 	{
@@ -17,13 +18,13 @@ namespace ExtractDAT3.Common.ViewModels
 		public int Index
 		{
 			get;
-			set;
+			private set;
 		}
 
 		public ObservableCollection<FileViewModel> Items
 		{
 			get;
-			set;
+			private set;
 		}
 
 		public PageViewModel(ILogger Logger,int Index):base(Logger)

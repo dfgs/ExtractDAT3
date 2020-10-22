@@ -8,8 +8,8 @@ using WavUtilsLib;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
-using ExtractDAT3.Common.ViewModels;
 using LogLib;
+using ExtractDAT3.Common;
 
 namespace ExtractDAT3
 {
@@ -79,9 +79,11 @@ namespace ExtractDAT3
 		
 		static void Main(string[] args)
 		{
-			string path;
-			ApplicationViewModel viewModel;
 			ILogger logger;
+			WavFile file;
+			string path;
+			bool forceInvalid;
+			bool includeHash;
 
 			if ((args.Length<1))
 			{
@@ -90,16 +92,27 @@ namespace ExtractDAT3
 			}
 
 			logger = new ConsoleLogger(new DefaultLogFormatter());
-			viewModel = new ApplicationViewModel(logger);
+			
 
 			path = args[0];
-			viewModel.IncludeHash = args.Select(item=>item.ToLower()).Contains("--includehash"); ;
-			viewModel.ForceInvalid = args.Select(item => item.ToLower()).Contains("--forcefileinvalid");
+			includeHash = args.Select(item=>item.ToLower()).Contains("--includehash"); ;
+			forceInvalid = args.Select(item => item.ToLower()).Contains("--forcefileinvalid");
 
-			viewModel.LoadDirectory(path,100);
-			viewModel.Analyse();				
+			try
+			{
+				foreach(string filePath in Directory.EnumerateFiles(path, "*.wav", SearchOption.AllDirectories))
+				{
+					file = new WavFile(logger, filePath);
+					file.Analyse(forceInvalid);
+					file.WriteDAT3(includeHash);
+				}
+			}
+			catch(Exception ex)
+			{
+				logger.Log(0, "ExtractDAT3", "Main", ex);
+			}
 
-			
+			Console.ReadLine();
 		}
 
 

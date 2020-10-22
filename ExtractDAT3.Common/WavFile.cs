@@ -8,22 +8,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using WavUtilsLib;
 
-namespace ExtractDAT3.Common.ViewModels
+namespace ExtractDAT3.Common
 {
-	public class FileViewModel:ViewModel
+	public class WavFile:Model
 	{
 		public override int ComponentID => 2;
 
-		public string ImageSource
-		{
-			get;
-			set;
-		}
-
+		
 		public string Path
 		{
 			get;
-			set;
+			private set;
 		}
 
 
@@ -31,47 +26,44 @@ namespace ExtractDAT3.Common.ViewModels
 		public string Metadata
 		{
 			get;
-			set;
+			private set;
 		}
 
 
 		public Statuses WavChunkStatus
 		{
 			get;
-			set;
+			private set;
 		}
 		public Statuses DataChunkStatus
 		{
 			get;
-			set;
+			private set;
 		}
 		public Statuses MetadataStatus
 		{
 			get;
-			set;
+			private set;
 		}
 		public Statuses DAT3Status
 		{
 			get;
-			set;
+			private set;
 		}
 
 		public string Message
 		{
 			get;
-			set;
+			private set;
 		}
 
-		public FileViewModel(ILogger Logger):base(Logger)
+		public WavFile(ILogger Logger,string Path):base(Logger)
 		{
-		}
-
-		public void Initialize(string Path)
-		{
-			LogEnter();
 			this.Path = Path;
+
 		}
 
+	
 		private  string FindMetadataInAudioChunk(DataChunk Chunk)
 		{
 			byte[] pattern = Encoding.ASCII.GetBytes("[FileType]");
@@ -79,6 +71,9 @@ namespace ExtractDAT3.Common.ViewModels
 			int length;
 			long position;
 			StreamReader reader;
+
+			LogEnter();
+			Log(LogLevels.Information, "Scanning chunks in order to find metadata");
 
 
 			length = pattern.Length;
@@ -92,6 +87,7 @@ namespace ExtractDAT3.Common.ViewModels
 					
 					if (buffer.SequenceEqual(pattern))
 					{
+						Log(LogLevels.Information, "Metadata chunk was found");
 						stream.Seek(position, SeekOrigin.Begin);
 						reader = new StreamReader(stream, Encoding.ASCII);
 						return reader.ReadToEnd();
@@ -100,23 +96,12 @@ namespace ExtractDAT3.Common.ViewModels
 				}
 			}
 
+			Log(LogLevels.Warning, "Metadata chunk was not found");
 			return null;
 
 		}
 
-		public void BeginAnalyse()
-		{
-			LogEnter();
-
-			Log(LogLevels.Information,"Cleaning statuses");
-			Metadata = null;
-			WavChunkStatus = Statuses.Unknow;
-			DataChunkStatus = Statuses.Unknow;
-			MetadataStatus = Statuses.Unknow;
-			DAT3Status = Statuses.Unknow;
-			Message = null;
-		}
-
+		
 
 		public void Analyse(bool ForceFileInvalid)
 		{
@@ -124,14 +109,20 @@ namespace ExtractDAT3.Common.ViewModels
 			DataChunk dataChunk;
 			TextChunk commentChunk;
 
-			string path;
+			LogEnter();
+			Log(LogLevels.Information, "Cleaning statuses");
+			Metadata = null;
+			WavChunkStatus = Statuses.Unknow;
+			DataChunkStatus = Statuses.Unknow;
+			MetadataStatus = Statuses.Unknow;
+			DAT3Status = Statuses.Unknow;
+			Message = null;
 
 
 			Log(LogLevels.Information, $"Loading chunk from file {Path}");
 			try
 			{
-				path = Path;
-				chunk = Chunk.FromFile(path);
+				chunk = Chunk.FromFile(Path);
 				WavChunkStatus = Statuses.Valid;
 			}
 			catch (Exception ex)
@@ -194,7 +185,7 @@ namespace ExtractDAT3.Common.ViewModels
 
 		}
 
-		public void EndAnalyse(bool IncludeHash)
+		public void WriteDAT3(bool IncludeHash)
 		{
 			StreamWriter writer;
 			//DateTime date = DateTime.MinValue;

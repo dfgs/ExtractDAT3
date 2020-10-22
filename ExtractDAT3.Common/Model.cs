@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ExtractDAT3.Common.ViewModels
+namespace ExtractDAT3.Common
 {
-	public abstract class ViewModel 
+	public abstract class Model 
 	{
 		private ILogger logger;
 		protected ILogger Logger
@@ -25,7 +25,7 @@ namespace ExtractDAT3.Common.ViewModels
 		{
 			get { return this.GetType().Name; }
 		}
-		public ViewModel(ILogger Logger)
+		public Model(ILogger Logger)
 		{
 			this.logger = Logger;
 

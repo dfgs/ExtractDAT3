@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExtractDAT3GUI" Closed="Window_Closed"
-		xmlns:viewModels="clr-namespace:ExtractDAT3.Common.ViewModels;assembly=ExtractDAT3.Common"
+		xmlns:common="clr-namespace:ExtractDAT3.Common;assembly=ExtractDAT3.Common"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
         Title="ExtractDAT3" Height="768" Width="1024" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
 
@@ -16,17 +16,17 @@
 				<Setter Property="HorizontalAlignment" Value="Center"/>
 				<Setter Property="Stretch" Value="None"/>
 				<Style.Triggers>
-					<Trigger Property="DataContext" Value="{x:Static viewModels:Statuses.Unknow}">
+					<Trigger Property="DataContext" Value="{x:Static common:Statuses.Unknow}">
 						<Trigger.Setters>
 							<Setter Property="Source" Value="{x:Null}"/>
 						</Trigger.Setters>
 					</Trigger>
-					<Trigger Property="DataContext" Value="{x:Static viewModels:Statuses.Invalid}">
+					<Trigger Property="DataContext" Value="{x:Static common:Statuses.Invalid}">
 						<Trigger.Setters>
 							<Setter Property="Source" Value="Images/cross.png"/>
 						</Trigger.Setters>
 					</Trigger>
-					<Trigger Property="DataContext" Value="{x:Static viewModels:Statuses.Valid}">
+					<Trigger Property="DataContext" Value="{x:Static common:Statuses.Valid}">
 						<Trigger.Setters>
 							<Setter Property="Source" Value="Images/tick.png"/>
 						</Trigger.Setters>
@@ -122,7 +122,7 @@
 								<GridViewColumn Header="" Width="32">
 									<GridViewColumn.CellTemplate>
 										<DataTemplate>
-											<Image Source="{Binding ImageSource}" Stretch="None"/>
+											<Image Stretch="None" Source="Images/music.png"/>
 										</DataTemplate>
 									</GridViewColumn.CellTemplate>
 								</GridViewColumn>
